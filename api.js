@@ -21,7 +21,7 @@ const swaggerOptions = {
             title: 'User API',
             version: '1.0.0',
         },
-        consumes: ['application/json', 'application/x-www-form-urlencoded'],
+        consumes: ['application/json'],
         servers: [
             {
                 url:"http://localhost:8000",
