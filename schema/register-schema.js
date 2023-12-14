@@ -1,18 +1,18 @@
-import { body } from 'express-validator'
+import { check } from 'express-validator'
 import { User } from '../models/User.js'
 
 const schema = [
-    body('email')
+    check('email')
         .isEmail()
         .withMessage('email must contain a valid email address')
-        .custom((value) => {
+        .custom((value, { req }) => {
             return User.findOne({ email: value }).then(userDoc => {
                 if (userDoc) {
                     return Promise.reject('E-mail address already exists!')
                 }
             })
         }),
-    body('password').isLength({ min: 7 }).withMessage('password must be at least 7 characters long'),
+    check('password').isLength({ min: 7 }).withMessage('password must be at least 7 characters long'),
 ]
 
 export { schema as registerSchema }

@@ -157,27 +157,46 @@ const adminController = {
      *      tags: [Admin]
      *      requestBody:
      *          required: true
-     *          content:
-     *              application/json:
+     *          content:                         
+     *              multipart/form-data:
      *                  schema:
-     *                      $ref: '#/components/schemas/User'
+     *                      type: object
+     *                      properties:    
+     *                          userName:
+     *                              type: string
+     *                          email:
+     *                              type: string
+     *                          password:
+     *                              type: string
+     *                          image:
+     *                              type: string
+     *                              format: binary      
      *      responses:
      *          201:
      *              description: The user was sucessfully created
      *              content:
      *                  application/json:
      *                      schema:
-     *                          $ref: '#/components/schemas/User'
+     *                          $ref: '#/components/schemas/User'              
      *          500:
      *              description: Some server
      */
 
     addUser: async (req, res) => {
-        try{
-            
-            const user = new User(req.body);
+        try{     
+            const { userName, email, password } = req.body;      
+
+             // Access the file data
+            const image = req.file.filename;
+
+            const user = new User({
+                userName,
+                email,
+                password,
+                image
+            })
             await user.save();
-            res.status(201).json({ success: true, message: 'User added successfully', user, token});
+            res.status(201).json({ success: true, message: 'User added successfully', user});
         } catch (error) {
             console.log(error.message);
             res.status(500).json({ success: false, message: 'Internal Server Error' });

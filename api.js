@@ -8,6 +8,7 @@ import morgan from 'morgan';
 const app = express();
 app.use(express.json());
 app.use(morgan('short'))
+app.use(express.static('../public/uploads'))
 
 connectDB();
 
@@ -20,6 +21,7 @@ const swaggerOptions = {
             title: 'User API',
             version: '1.0.0',
         },
+        consumes: ['application/json', 'application/x-www-form-urlencoded'],
         servers: [
             {
                 url:"http://localhost:8000",

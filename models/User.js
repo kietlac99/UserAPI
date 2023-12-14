@@ -19,10 +19,12 @@ const userSchema = new mongoose.Schema({
         required: [true, 'A password is required'],
         minLength: 7,
     },
+    image: {
+        type: String,
+    },
     tokens: [{
         token: {
             type: String,
-            required: true,
         }
     }]
 }, {collection: 'user', timestamps: true});
