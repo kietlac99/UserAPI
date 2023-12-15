@@ -4,6 +4,7 @@ import { adminRouter } from './routes/admin.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import morgan from 'morgan';
+import { importData } from './data/auto-data.js';
 
 const app = express();
 app.use(express.json());
@@ -45,6 +46,19 @@ const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 const PORT = 8000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+
+const startServer = async() => {
+    try {
+        importData()
+        
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Error starting the server: ', error)
+    }
+}
+
+startServer();
+
+
