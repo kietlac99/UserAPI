@@ -270,7 +270,7 @@ const adminController = {
             const token = await user.generateAuthToken('300s')
             res.send({ user, token })
         } catch (error) {
-            res.status(400).send(error.message)
+            res.status(400).json({error: 'Login falied'})
         }
     }
 }
