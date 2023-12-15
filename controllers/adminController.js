@@ -170,7 +170,12 @@ const adminController = {
      *                              type: string
      *                          image:
      *                              type: string
-     *                              format: binary      
+     *                              format: binary
+     *                          role:
+     *                              type: string
+     *                              enum:
+     *                                  - admin
+     *                                  - guest   
      *      responses:
      *          201:
      *              description: The user was sucessfully created
@@ -184,7 +189,7 @@ const adminController = {
 
     addUser: async (req, res) => {
         try{     
-            const { userName, email, password } = req.body;      
+            const { userName, email, password, role } = req.body;      
 
              // Access the file data
             const image = req.file.filename;
@@ -193,7 +198,8 @@ const adminController = {
                 userName,
                 email,
                 password,
-                image
+                role,
+                image,
             })
             await user.save();
             res.status(201).json({ success: true, message: 'User added successfully', user});
@@ -206,6 +212,14 @@ const adminController = {
     Authentication: async(req, res) => {
         try{
             res.status(200).json({message: 'Access approve...'})
+        } catch (error) {
+            console.log(error.message)
+        }
+    },
+
+    isAdmin: async(req, res) => {
+        try {
+            res.status(200).json({message: 'Acess approve...'})
         } catch (error) {
             console.log(error.message)
         }

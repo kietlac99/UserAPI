@@ -13,6 +13,7 @@ const schema = [
             })
         }),
     check('password').isLength({ min: 7 }).withMessage('password must be at least 7 characters long'),
+    check('role').notEmpty().withMessage('Role cannot be empty').isIn(['admin', 'guest']).withMessage('Invalid role'),
 ]
 
 export { schema as registerSchema }

@@ -7,8 +7,9 @@ import { registerSchema } from '../schema/register-schema.js';
 import { upload } from '../middleware/file-upload.js'
 
 adminRouter.get('/users', adminController.getUsers);
-adminRouter.get('/users/me', auth, adminController.getOneUser);
-adminRouter.get('/auth', auth, adminController.Authentication);
+adminRouter.get('/users/me', auth.verifyToken, auth.isAdmin, adminController.getOneUser);
+adminRouter.get('/auth', auth.verifyToken, adminController.Authentication);
+adminRouter.get('/isAdmin', auth.isAdmin, adminController.isAdmin);
 adminRouter.post(
     '/add-user',
     upload.single('image'),  
@@ -17,7 +18,7 @@ adminRouter.post(
     adminController.addUser
     );
 adminRouter.post('/login', adminController.adminLogin);
-adminRouter.post('/logout', auth, adminController.adminLogout);
-adminRouter.post('/logoutAll', auth, adminController.admindLogoutAll)
+adminRouter.post('/logout', auth.verifyToken, adminController.adminLogout);
+adminRouter.post('/logoutAll', auth.verifyToken, adminController.admindLogoutAll)
 
 export { adminRouter } 

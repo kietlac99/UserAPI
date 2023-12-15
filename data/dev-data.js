@@ -13,9 +13,6 @@ const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'data.json'), 'utf
 
 // const users = JSON.parse(fs.readFileSync(`${__dirname}/data.json`, 'utf-8'));
 
-
-
-
 //seed or import Data into DB
 const importData = async() => {
     try {
