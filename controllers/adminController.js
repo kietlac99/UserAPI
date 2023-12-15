@@ -82,6 +82,10 @@ const adminController = {
      *                          type: array
      *                          items:
      *                              $ref: '#components/schemas/User'
+     *                  image/png:
+     *                      schema:
+     *                          type: string
+     *                          format: binary
      */
 
 
@@ -260,12 +264,13 @@ const adminController = {
             const password = req.query.password
             const user = await User.findbyCredentials(email, password)
             if (!user) {
+                
                 return res.status(401).send({error: 'Login failed! Check authentication credentials'})
             }
             const token = await user.generateAuthToken('300s')
             res.send({ user, token })
         } catch (error) {
-            res.status(400).send(error)
+            res.status(400).send(error.message)
         }
     }
 }

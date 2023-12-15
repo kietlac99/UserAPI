@@ -52,13 +52,16 @@ userSchema.methods.generateAuthToken = async function(expiresIn) {
 
 userSchema.statics.findbyCredentials = async (email, password) => {
     const user = await User.findOne({ email })
+    
     if (!user) {
-        throw new Error({ error: 'Invalid login credentials' })
+        return user
+       
     }
     const isPasswordMatch = await bcrypt.compare(password, user.password)
     if (!isPasswordMatch){
-        throw new Error({ error: 'Invalid login credentials'})
+        return user
     }
+    console.log('alo')
     return user
 }
 
